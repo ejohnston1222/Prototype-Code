@@ -1,0 +1,62 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.AnalogInput;
+
+
+
+
+/**
+ * Add your docs here
+ */
+public class Arm extends Subsystem {
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
+    DoubleSolenoid soul = new DoubleSolenoid(0,1);
+    AnalogInput pressureSensor = new AnalogInput(0);
+    TalonSRX armtalon= new TalonSRX(4);
+    AnalogInput aPotentiometer= new AnalogInput(1);
+    
+
+    public void Punch(boolean bob) {
+      if (bob == true) {
+        soul.set(DoubleSolenoid.Value.kForward);
+
+      } else {
+        soul.set(DoubleSolenoid.Value.kReverse);
+}
+
+}
+public double getPressure(){
+  double rawVoltage = pressureSensor.getVoltage();
+  return ( 250*(rawVoltage/5) - 25);
+}
+  public void Pivot(double move) {
+    armtalon.set(ControlMode.PercentOutput,move);
+  }
+  public double length(){
+    double rawVoltage = aPotentiometer.getVoltage();
+    return (rawVoltage);
+  }
+
+  
+  
+      @Override
+      public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        // setDefaultCommand(new MySpecialCommand());
+  }
+
+}
